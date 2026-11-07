@@ -11,19 +11,17 @@ body { background-color: #f3f4f6; color: #1f2937; padding: 16px; font-size: 14px
 .header { background: #ffffff; padding: 20px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 16px; text-align: center; }
 .header h1 { font-size: 22px; color: #111827; margin-bottom: 6px; }
 .header p { color: #6b7280; font-size: 13px; }
-.user-bar { background: #eff6ff; border: 1px solid #bfdbfe; padding: 12px 16px; border-radius: 10px; margin-bottom: 16px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+.user-bar { background: #eff6ff; border: 1px solid #bfdbfe; padding: 12px 16px; border-radius: 10px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
 .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 16px; }
-.stat-card { background: #ffffff; padding: 14px; border-radius: 10px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.05); cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; border: 2px solid transparent; }
-.stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.08); }
+.stat-card { background: #ffffff; padding: 14px; border-radius: 10px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.05); border: 2px solid transparent; }
 .stat-card.active { border-color: #2563eb; background-color: #eff6ff; }
 .stat-card .num { font-size: 20px; font-weight: bold; margin-top: 4px; }
 .c-blue { color: #2563eb; } .c-pink { color: #db2777; } .c-orange { color: #ea580c; } .c-red { color: #dc2626; }
 .controls { background: #ffffff; padding: 14px; border-radius: 10px; margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
 .search-input, .select-input { padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; outline: none; font-size: 13px; }
 .search-input { flex: 1; min-width: 180px; }
-.btn { padding: 8px 14px; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
+.btn { padding: 8px 14px; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; font-size: 13px; }
 .btn-primary { background: #2563eb; color: #fff; }
-.btn-primary:hover { background: #1d4ed8; }
 .table-container { background: #ffffff; border-radius: 10px; overflow-x: auto; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
 table { width: 100%; border-collapse: collapse; text-align: left; }
 th, td { padding: 12px 14px; border-bottom: 1px solid #e5e7eb; white-space: nowrap; }
@@ -33,7 +31,7 @@ tr:hover { background: #f9fafb; }
 .bg-moist { background: #e0f2fe; color: #0369a1; }
 .bg-white { background: #fef3c7; color: #b45309; }
 .bg-repair { background: #dcfce7; color: #15803d; }
-.bg-antiage { background: #f3e8ff; color: #6b21a8; font-weight: bold; }
+.bg-antiage { background: #f3e8ff; color: #6b21a8; }
 .tag-reorder { background: #fee2e2; color: #991b1b; cursor: pointer; border: 1px dashed #f87171; }
 .tag-ok { background: #e5e7eb; color: #374151; cursor: pointer; }
 .counter-btn { width: 26px; height: 26px; border-radius: 4px; border: 1px solid #d1d5db; background: #fff; font-weight: bold; cursor: pointer; }
@@ -44,40 +42,37 @@ tr:hover { background: #f9fafb; }
 .form-group { margin-bottom: 12px; }
 .form-group label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 4px; color: #374151; }
 .form-control { width: 100%; padding: 8px 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 13px; }
-.toast { position: fixed; bottom: 20px; right: 20px; background: #111827; color: #fff; padding: 10px 18px; border-radius: 8px; font-size: 13px; display: none; z-index: 200; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+.toast { position: fixed; bottom: 20px; right: 20px; background: #111827; color: #fff; padding: 10px 18px; border-radius: 8px; font-size: 13px; display: none; z-index: 200; }
 </style>
 </head>
 <body>
 <div class="container">
 <div class="header">
 <h1>🌸 面膜庫存管理系統</h1>
-<p>輕鬆管理個人庫存、到期日提醒與多用戶切換</p>
+<p>輕鬆管理個人庫存、到期日提醒與加單狀態</p>
 </div>
 <div class="user-bar">
 <div style="display: flex; align-items: center; gap: 8px;">
 <span style="font-weight: bold; color: #1e3a8a;">👤 當前使用者空間：</span>
-<span id="currentUserName" style="font-weight: bold; color: #1d4ed8; font-size: 16px;">Fun Fun</span>
-</div>
-<div style="display: flex; align-items: center; gap: 8px;">
-<button class="btn" style="background:#fee2e2; color:#dc2626;" onclick="resetToDefaultData()">🔄 重置載入 15 款面膜</button>
+<span style="font-weight: bold; color: #1d4ed8; font-size: 16px;">Fun Fun</span>
 </div>
 </div>
 <div class="stats-grid">
-<div class="stat-card active" id="cardTotalItems" onclick="filterByStat('ALL')">
+<div class="stat-card active" id="cardTotalItems">
 <div style="color: #6b7280; font-size: 12px;">總品項數 (全部)</div>
-<div class="num c-blue" id="statTotalItems">0</div>
+<div class="num c-blue" id="statTotalItems">15</div>
 </div>
-<div class="stat-card" id="cardTotalSheets" onclick="filterByStat('ALL')">
+<div class="stat-card" id="cardTotalSheets">
 <div style="color: #6b7280; font-size: 12px;">剩餘總數量</div>
-<div class="num c-pink" id="statTotalSheets">0</div>
+<div class="num c-pink" id="statTotalSheets">121</div>
 </div>
-<div class="stat-card" id="cardReorder" onclick="filterByStat('REORDER')">
+<div class="stat-card" id="cardReorder">
 <div style="color: #6b7280; font-size: 12px;">需要加單品項 🚨</div>
-<div class="num c-orange" id="statReorder">0</div>
+<div class="num c-orange" id="statReorder">1</div>
 </div>
-<div class="stat-card" id="cardExpiring" onclick="filterByStat('EXPIRING')">
+<div class="stat-card" id="cardExpiring">
 <div style="color: #6b7280; font-size: 12px;">即將過期 (90天內) ⚠️</div>
-<div class="num c-red" id="statExpiring">0</div>
+<div class="num c-red" id="statExpiring">2</div>
 </div>
 </div>
 <div class="controls">
@@ -89,7 +84,7 @@ tr:hover { background: #f9fafb; }
 <option value="🌿 舒緩修護">🌿 舒緩修護</option>
 <option value="👑 緊緻抗老">👑 緊緻抗老</option>
 </select>
-<select id="filterReorder" class="select-input" onchange="resetStatCardsHighlight(); renderTable();">
+<select id="filterReorder" class="select-input" onchange="renderTable()">
 <option value="ALL">全部加單狀態</option>
 <option value="YES">🚨 需加單</option>
 <option value="NO">✅ 無需加單</option>
@@ -174,7 +169,7 @@ tr:hover { background: #f9fafb; }
 </div>
 <div class="toast" id="toast">提示訊息</div>
 <script>
-var defaultInventory = [
+var inventory = [
 { id: 1, brand: "PATRA", category: "💧 保濕鎖水", name: "Niacinamide B3 Hydrating Mask (B3 保濕面膜)", purchased: 9, used: 0, expiry: "2029-05-13", reorderOverride: null },
 { id: 2, brand: "VITA-AGE", category: "✨ 美白煥膚", name: "AURUM (金箔美白煥膚面膜)", purchased: 5, used: 0, expiry: "2026-11-15", reorderOverride: null },
 { id: 12, brand: "VITA-AGE", category: "💧 保濕鎖水", name: "AURUM (高效玻尿酸安瓶精華)", purchased: 6, used: 0, expiry: "2026-11-15", reorderOverride: null },
@@ -191,45 +186,12 @@ var defaultInventory = [
 { id: 14, brand: "La Suisse", category: "👑 緊緻抗老", name: "JF18 PDRN玻色因人參外泌體抗皺修復面膜", purchased: 10, used: 0, expiry: "2029-12-31", reorderOverride: null },
 { id: 15, brand: "Kirei Hada (Sumi)", category: "💧 保濕鎖水", name: "SOS Ultra Moist Mask (急救爆水面膜)", purchased: 10, used: 0, expiry: "2029-12-31", reorderOverride: null }
 ];
-var currentUser = "Fun Fun";
-var inventory = [];
 var deletingId = null;
-var currentStatFilter = "ALL";
 function showToast(msg) {
 var toast = document.getElementById("toast");
 toast.innerText = msg;
 toast.style.display = "block";
 setTimeout(function() { toast.style.display = "none"; }, 2500);
-}
-function resetToDefaultData() {
-inventory = JSON.parse(JSON.stringify(defaultInventory));
-saveCurrentData();
-renderTable();
-showToast("已成功載入 15 款預設面膜！");
-}
-function loadUserData() {
-var storageKey = "mask_data_v2_" + currentUser;
-var savedData = localStorage.getItem(storageKey);
-if (savedData) {
-try {
-var parsed = JSON.parse(savedData);
-if (parsed && parsed.length > 0) {
-inventory = parsed;
-} else {
-inventory = JSON.parse(JSON.stringify(defaultInventory));
-}
-} catch(e) {
-inventory = JSON.parse(JSON.stringify(defaultInventory));
-}
-} else {
-inventory = JSON.parse(JSON.stringify(defaultInventory));
-}
-saveCurrentData();
-renderTable();
-}
-function saveCurrentData() {
-var storageKey = "mask_data_v2_" + currentUser;
-localStorage.setItem(storageKey, JSON.stringify(inventory));
 }
 function getCategoryClass(cat) {
 if (!cat) return "bg-moist";
@@ -268,35 +230,12 @@ document.getElementById("statTotalSheets").innerText = totalSheets;
 document.getElementById("statReorder").innerText = reorderCount;
 document.getElementById("statExpiring").innerText = expiringCount;
 }
-function resetStatCardsHighlight() {
-document.querySelectorAll(".stat-card").forEach(c => c.classList.remove("active"));
-}
-function filterByStat(type) {
-currentStatFilter = type;
-resetStatCardsHighlight();
-if (type === 'ALL') {
-document.getElementById("cardTotalItems").classList.add("active");
-document.getElementById("filterReorder").value = "ALL";
-} else if (type === 'REORDER') {
-document.getElementById("cardReorder").classList.add("active");
-document.getElementById("filterReorder").value = "YES";
-} else if (type === 'EXPIRING') {
-document.getElementById("cardExpiring").classList.add("active");
-document.getElementById("filterReorder").value = "ALL";
-}
-renderTable();
-}
 function renderTable() {
 var search = document.getElementById("searchInput").value.toLowerCase();
 var filterCat = document.getElementById("filterCategory").value;
 var filterReorder = document.getElementById("filterReorder").value;
 var tbody = document.getElementById("inventoryTable");
 tbody.innerHTML = "";
-if (inventory.length === 0) {
-tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:#9ca3af; padding: 24px;">目前尚無項目，點擊右上角「+ 新增項目」或「🔄 重置載入 15 款面膜」吧！</td></tr>';
-updateStats();
-return;
-}
 inventory.forEach(function(item) {
 var isReorderNeeded = checkIsReorderNeeded(item);
 var isExpiring = isExpiringSoon(item.expiry);
@@ -305,8 +244,7 @@ var matchCat = (filterCat === "ALL" || item.category === filterCat);
 var matchReorder = (filterReorder === "ALL") ||
 (filterReorder === "YES" && isReorderNeeded) ||
 (filterReorder === "NO" && !isReorderNeeded);
-var matchStatFilter = (currentStatFilter !== 'EXPIRING') || isExpiring;
-if (matchSearch && matchCat && matchReorder && matchStatFilter) {
+if (matchSearch && matchCat && matchReorder) {
 var remaining = item.purchased - item.used;
 var tr = document.createElement("tr");
 var expiryStyle = isExpiring ? "color:#dc2626; font-weight:bold;" : "";
@@ -322,7 +260,6 @@ if (item) {
 var newUsed = item.used + delta;
 if (newUsed >= 0 && newUsed <= item.purchased) {
 item.used = newUsed;
-saveCurrentData();
 renderTable();
 }
 }
@@ -332,7 +269,6 @@ var item = inventory.find(i => i.id === id);
 if (item) {
 var currentStatus = checkIsReorderNeeded(item);
 item.reorderOverride = !currentStatus;
-saveCurrentData();
 renderTable();
 showToast(item.reorderOverride ? "已標記為：需要加單" : "已標記為：無需加單");
 }
@@ -403,7 +339,6 @@ expiry: expiry,
 reorderOverride: needReorder
 });
 }
-saveCurrentData();
 closeModal();
 renderTable();
 showToast("儲存成功！");
@@ -419,15 +354,13 @@ document.getElementById("confirmModal").style.display = "none";
 document.getElementById("confirmDeleteBtn").onclick = function() {
 if (deletingId !== null) {
 inventory = inventory.filter(i => i.id !== deletingId);
-saveCurrentData();
 renderTable();
 closeConfirmModal();
 showToast("已刪除項目");
 }
 };
-window.onload = function() {
-loadUserData();
-};
+// 頁面一載入立刻渲染 15 款面膜
+renderTable();
 </script>
 </body>
 </html>
